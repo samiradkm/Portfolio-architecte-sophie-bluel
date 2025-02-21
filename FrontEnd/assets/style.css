@@ -292,6 +292,30 @@ footer nav ul {
 
 
 /* Code de Samira */
+div.categories {
+	display: flex;
+	justify-content: center;
+	gap: 15px;
+}
+
+div.categories div {
+	border-radius: 60px;
+	border-color: #1D6154;
+	height: 37px;
+	padding-left: 30px;
+	padding-right: 30px;
+	font-family: 'Syne';
+	background-color: transparent;
+	color: #1D6154;
+	border: solid;
+	display: flex;
+	align-items: center;
+}
+
+div.categories div.active {
+	background-color: #1D6154;
+	color: white;
+}
 
 h3 {
 	font-family: 'Syne';
@@ -304,4 +328,69 @@ h3 {
 div.filters {
 	margin-bottom: 15px;
 
+}
+
+
+#login-form h2.login {
+	display: flex;
+	justify-content: center;
+
+
+
+}
+
+
+#login-form {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	gap: 15px;
+	align-items: center;
+}
+
+#login-form label.email {
+	width: 379px;
+}
+
+#login-form label.Mdp {
+	width: 379px;
+}
+
+#login-form input {
+	width: 379px;
+	height: 51px;
+	outline: none;
+	border: 0px;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+#login-form input:focus {
+	border: 2px solid rgb(0, 132, 255);
+	outline: none
+}
+
+
+#login-form button.login-btn {
+	border-radius: 60px;
+	background-color: #1D6154;
+	color: white;
+	border: none;
+	padding: 10px;
+	font-size: 16px;
+	margin-top: 10px;
+	cursor: pointer;
+	width: 15%;
+	display: flex;
+	justify-content: center;
+	font-family: 'syne';
+
+}
+
+#login-form div {
+	display: flex;
+	gap: 15px;
+	text-decoration: underline;
+	cursor: pointer;
+	font-weight: 500;
+	color: rgba(61, 61, 61, 1);
 }
