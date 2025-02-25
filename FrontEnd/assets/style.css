@@ -399,3 +399,85 @@ div.filters {
 .error {
 	color: red;
 }
+
+div.button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 15px;
+	margin-bottom: 2em;
+}
+
+#edit-button {
+	cursor: pointer;
+}
+
+#portfolio div.button h2 {
+	margin-bottom: 0px;
+}
+
+/* Style de base du modal (caché par défaut) */
+.modal {
+	display: none;
+	/* Caché au départ */
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	/* Fond semi-transparent */
+}
+
+/* Contenu du modal */
+.modal-content {
+	background-color: white;
+	margin: auto auto;
+	padding: 70px;
+	width: 430px;
+	border-radius: 10px;
+	text-align: center;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3)
+}
+
+/* Bouton de fermeture */
+.close {
+	float: right;
+	font-size: 12px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.imagemodal {
+	width: 78px;
+	height: 105px;
+}
+
+#liste-galerie {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+
+#addPhotoButton {
+	margin-top: 30px;
+	background-color: #1D6154;
+	border-radius: 60px;
+	height: 36px;
+	width: 237px;
+	font-family: 'Syne';
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: white;
+}
+
+div.modal-footer {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

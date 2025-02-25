@@ -11,6 +11,8 @@
 		rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
 	<script src="./assets/script.js" defer></script>
 </head>
 
@@ -43,7 +45,21 @@
 			</article>
 		</section>
 		<section id="portfolio">
-			<h2>Mes Projets</h2>
+			<div class="button">
+				<h2>Mes Projets</h2>
+				<div id="edit-button"><i class="fa-solid fa-pen-to-square"></i> modifier</div>
+			</div>
+			<div id="modal" class="modal">
+				<div class="modal-content">
+					<span class="close">&times;</span>
+					<h3>Galerie photo</h3>
+					<div id="liste-galerie"></div>
+					<hr />
+					<div class="modal-footer">
+						<div id="addPhotoButton">Ajouter une photo</div>
+					</div>
+				</div>
+			</div>
 			<div class="filters">
 				<div class="categories"></div>
 			</div>
