@@ -310,6 +310,7 @@ div.categories div {
 	border: solid;
 	display: flex;
 	align-items: center;
+	cursor: pointer;
 }
 
 div.categories div.active {
@@ -393,4 +394,8 @@ div.filters {
 	cursor: pointer;
 	font-weight: 500;
 	color: rgba(61, 61, 61, 1);
+}
+
+.error {
+	color: red;
 }
