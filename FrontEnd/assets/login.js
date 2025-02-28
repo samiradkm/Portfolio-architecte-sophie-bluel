@@ -20,9 +20,10 @@ document.getElementById('login-form').addEventListener('submit', (e) => {
             } else {
 
                 response.json().then((data) => {
-                    loginToken = data.token;
+                    window.localStorage.setItem('token', data.token);
                     window.location.href = 'index.html';
                 });
             }
         })
 })
+

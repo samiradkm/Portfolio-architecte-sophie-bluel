@@ -49,17 +49,47 @@
 				<h2>Mes Projets</h2>
 				<div id="edit-button"><i class="fa-solid fa-pen-to-square"></i> modifier</div>
 			</div>
+
+			<!-- modale -->
 			<div id="modal" class="modal">
 				<div class="modal-content">
 					<span class="close">&times;</span>
-					<h3>Galerie photo</h3>
-					<div id="liste-galerie"></div>
-					<hr />
-					<div class="modal-footer">
-						<div id="addPhotoButton">Ajouter une photo</div>
+					<div id="edit-modal">
+						<h3>Galerie photo</h3>
+						<div id="liste-galerie"></div>
+						<hr />
+						<div class="modal-footer">
+							<div id="addPhotoButton" class="button">Ajouter une photo</div>
+						</div>
+						<p class="error"></p>
 					</div>
+					<div id="create-modal">
+						<h3>Ajout photo</h3>
+						<form>
+							<div class="file-field">
+								<img src="./assets/icons/input_image.png" />
+								<input type="file" accept="jpg,png" />
+								<span>jpg, png : 4mo max</span>
+							</div>
+							<label for="title">Titre</label>
+							<input type="text" name="title" />
+							<label>categories</label>
+							<select name="categoryId">
+							</select>
+							<hr />
+							<div class="modal-footer">
+								<input type="submit" class="button" value="Valider">
+								<hr />
+							</div>
+					</div>
+					<p class="error"></p>
+					</form>
 				</div>
+
 			</div>
+			</div>
+
+
 			<div class="filters">
 				<div class="categories"></div>
 			</div>

@@ -6,6 +6,7 @@ console.log("bonjour samira");
 
 let loginToken = null;
 let works = [];
+let categoriesList = [];
 const gallery = document.querySelector('section#portfolio div.gallery');
 const categories = document.querySelector('section#portfolio div.categories');
 
@@ -13,18 +14,8 @@ const categories = document.querySelector('section#portfolio div.categories');
 fetch('http://localhost:5678/api/works')
     .then(response => response.json())
     .then(data => {
-        for (let i = 0; i < data.length; i++) {
-            works = data; // Stockage de la liste des traveaux dans une variable globale
-            const work = data[i];
-            const figure = document.createElement('figure');
-            const img = document.createElement('img');
-            const figcaption = document.createElement('figcaption');
-            img.src = work.imageUrl;
-            figure.appendChild(img);
-            figcaption.textContent = work.title;
-            figure.appendChild(figcaption);
-            gallery.appendChild(figure);
-        }
+        works = data; // Stockage de la liste des traveaux dans une variable globale
+        loadGallery();
     })
     .catch(error => console.log(error))
     ;
@@ -34,6 +25,7 @@ fetch('http://localhost:5678/api/works')
 fetch('http://localhost:5678/api/categories')
     .then(response => response.json())
     .then(data => {
+        categoriesList = data;
         const buttonToutesCategories = document.createElement('div');
         buttonToutesCategories.textContent = 'Tous';
         buttonToutesCategories.classList.add("active")
@@ -98,10 +90,39 @@ document.getElementById("edit-button").addEventListener("click", function () {
     listeGalerie.innerHTML = "";
     for (let i = 0; i < works.length; i++) {
         const work = works[i];
+
         const img = document.createElement('img');
         img.src = work.imageUrl;
-        img.classList.add('imagemodal');
-        listeGalerie.appendChild(img);
+
+        const icone = document.createElement('i');
+        icone.className = 'fa-solid fa-trash';
+
+        const divImage = document.createElement('div');
+        divImage.appendChild(img);
+        divImage.appendChild(icone);
+        divImage.classList.add('imagemodal');
+
+        icone.addEventListener('click', function () {
+            const token = window.localStorage.getItem('token');
+            if (token != null) {
+                console.log(work.id);
+                fetch('http://localhost:5678/api/works/' + work.id, {
+                    method: 'DELETE', headers: {
+                        'Authorization': 'Bearer ' + token,
+                    }
+                }).then((response) => {
+                    if (response.status !== 204) {
+                        document.querySelector('.error').textContent = response.statusText;
+                    } else {
+                        works.splice(i, 1);
+                        divImage.remove();
+                        loadGallery();
+                    }
+                });
+            }
+        })
+
+        listeGalerie.appendChild(divImage);
     }
 
 });
@@ -119,4 +140,37 @@ window.addEventListener("click", function (event) {
         document.getElementById("modal").style.display = "none";
     }
 });
+
+if (localStorage.getItem('token')) {
+    document.getElementById('edit-button').style.display = 'block';
+}
+
+function loadGallery() {
+    gallery.innerHTML = '';
+    for (let i = 0; i < works.length; i++) {
+        const work = works[i];
+        const figure = document.createElement('figure');
+        const img = document.createElement('img');
+        const figcaption = document.createElement('figcaption');
+        img.src = work.imageUrl;
+        figure.appendChild(img);
+        figcaption.textContent = work.title;
+        figure.appendChild(figcaption);
+        gallery.appendChild(figure);
+    }
+}
+
+document.getElementById('addPhotoButton').addEventListener("click", function () {
+    document.getElementById("edit-modal").style.display = "none";
+    document.getElementById('create-modal').style.display = "block";
+    const select = document.querySelector('#create-modal select');
+    for (let i = 0; i < categoriesList.length; i++) {
+        const category = categoriesList[i];
+        console.log(category);
+        const option = document.createElement("option");
+        option.value = category.id;
+        option.textContent = category.name;
+        select.appendChild(option);
+    }
+})
 
