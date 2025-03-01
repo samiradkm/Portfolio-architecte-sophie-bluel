@@ -49,7 +49,7 @@ fetch('http://localhost:5678/api/categories')
                 desactiveFilters();
                 button.classList.add("active");
                 gallery.innerHTML = '';
-                const filteredWorks = works.filter(w => w.categoryId === category.id);
+                const filteredWorks = works.filter(w => w.categoryId == category.id);
                 for (let i = 0; i < filteredWorks.length; i++) {
                     const work = filteredWorks[i];
                     const figure = document.createElement('figure');
@@ -172,5 +172,46 @@ document.getElementById('addPhotoButton').addEventListener("click", function () 
         option.textContent = category.name;
         select.appendChild(option);
     }
+})
+
+document.getElementById("image").addEventListener("change", function (event) {
+    let file = event.target.files[0];
+
+    if (file) {
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            let preview = document.getElementById("preview");
+            preview.src = e.target.result;
+            let inputField = document.querySelector('.file-field');
+            inputField.style.display = "none";
+            preview.style.display = "block"; // Affiche l'aperçu
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+const form = document.querySelector('#create-modal form');
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const token = window.localStorage.getItem('token');
+    let formData = new FormData(form);
+    fetch('http://localhost:5678/api/works', {
+        method: 'POST',
+        body: formData,
+        headers: { 'Authorization': 'Bearer ' + token }
+    }).then(function (response) {
+        if (response.status !== 201) {
+            document.querySelector('.error').textContent = response.statusText;
+        } else {
+            response.json().then(work => {
+                console.log(work);
+                works.push(work);
+                loadGallery();
+                document.getElementById('modal').style.display = 'none';
+            });
+        }
+    })
+
 })
 

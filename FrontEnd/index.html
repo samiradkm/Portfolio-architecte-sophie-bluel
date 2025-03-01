@@ -55,26 +55,31 @@
 				<div class="modal-content">
 					<span class="close">&times;</span>
 					<div id="edit-modal">
-						<h3>Galerie photo</h3>
+						<h4>Galerie photo</h4>
 						<div id="liste-galerie"></div>
 						<hr />
 						<div class="modal-footer">
 							<div id="addPhotoButton" class="button">Ajouter une photo</div>
 						</div>
-						<p class="error"></p>
 					</div>
 					<div id="create-modal">
-						<h3>Ajout photo</h3>
+						<h4>Ajout photo</h4>
 						<form>
-							<div class="file-field">
-								<img src="./assets/icons/input_image.png" />
-								<input type="file" accept="jpg,png" />
-								<span>jpg, png : 4mo max</span>
+							<div class="input-image">
+								<div class="file-field">
+									<img src="./assets/icons/input_image.png" />
+									<div class="file-field-button">
+										<input id="image" type="file" name="image" accept=".jpg, .png" />
+										<label for="image">+ Ajouter photo</label>
+									</div>
+									<span>jpg, png : 4mo max</span>
+								</div>
+								<img id="preview" class="preview" alt="Aperçu de l'image">
 							</div>
 							<label for="title">Titre</label>
 							<input type="text" name="title" />
 							<label>categories</label>
-							<select name="categoryId">
+							<select name="category">
 							</select>
 							<hr />
 							<div class="modal-footer">
@@ -82,8 +87,8 @@
 								<hr />
 							</div>
 					</div>
-					<p class="error"></p>
 					</form>
+					<p class="error"></p>
 				</div>
 
 			</div>
