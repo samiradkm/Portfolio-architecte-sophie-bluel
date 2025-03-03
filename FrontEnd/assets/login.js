@@ -14,14 +14,11 @@ document.getElementById('login-form').addEventListener('submit', (e) => {
         .then((response) => {
             console.log(response);
             if (response.status !== 200) {
-                response.json().then((data) => {
-                    document.querySelector('.error').textContent = data.message;
-                });
+                document.querySelector('.error').textContent = 'E-mail ou mot de passe incorrect';
             } else {
-
                 response.json().then((data) => {
                     window.localStorage.setItem('token', data.token);
-                    window.location.href = 'index.html';
+                    window.location.href = 'index.html'; // Redirection de l'utilisateur vers la page d'accueil du site.
                 });
             }
         })

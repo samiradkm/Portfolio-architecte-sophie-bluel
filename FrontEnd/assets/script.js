@@ -20,8 +20,7 @@ fetch('http://localhost:5678/api/works')
     .catch(error => console.log(error))
     ;
 
-
-// Affichages des categories au chargement de la page
+// Affichages des filtres par categories au chargement de la page
 fetch('http://localhost:5678/api/categories')
     .then(response => response.json())
     .then(data => {
@@ -84,6 +83,8 @@ function desactiveFilters() {
     }
 }
 
+// Au clique sur le bouton "modifier" la modale s'ouvre et affiche la liste des travaux avec 
+// un bouton poubelle sur chacun, qui permet de supprimer le travail correspondant.
 document.getElementById("edit-button").addEventListener("click", function () {
     document.getElementById("modal").style.display = "block";
     const listeGalerie = document.getElementById("liste-galerie");
@@ -102,6 +103,7 @@ document.getElementById("edit-button").addEventListener("click", function () {
         divImage.appendChild(icone);
         divImage.classList.add('imagemodal');
 
+        // Suppression d'un travail au click sur l'icone poubelle.
         icone.addEventListener('click', function () {
             const token = window.localStorage.getItem('token');
             if (token != null) {
@@ -142,9 +144,10 @@ window.addEventListener("click", function (event) {
 });
 
 if (localStorage.getItem('token')) {
-    document.getElementById('edit-button').style.display = 'block';
+    affichageAdmin();
 }
 
+// Fonction pour recharger la liste des travaux de manière dynamique
 function loadGallery() {
     gallery.innerHTML = '';
     for (let i = 0; i < works.length; i++) {
@@ -160,9 +163,13 @@ function loadGallery() {
     }
 }
 
+// Au clique sur le bouton "Ajouter une photo" dans la modale, on remplace la modale de suppression
+// Par la modale du formulare de création d'un travail
 document.getElementById('addPhotoButton').addEventListener("click", function () {
     document.getElementById("edit-modal").style.display = "none";
     document.getElementById('create-modal').style.display = "block";
+
+    // on charge le select avac la liste des categories
     const select = document.querySelector('#create-modal select');
     for (let i = 0; i < categoriesList.length; i++) {
         const category = categoriesList[i];
@@ -174,6 +181,8 @@ document.getElementById('addPhotoButton').addEventListener("click", function () 
     }
 })
 
+
+// Qaund on selectionne une image dans le formulaire, l'image doit s'afficher.
 document.getElementById("image").addEventListener("change", function (event) {
     let file = event.target.files[0];
 
@@ -190,6 +199,8 @@ document.getElementById("image").addEventListener("change", function (event) {
     }
 });
 
+
+// création d'un nnouveau travail via le backend
 const form = document.querySelector('#create-modal form');
 form.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -205,7 +216,6 @@ form.addEventListener('submit', (event) => {
             document.querySelector('.error').textContent = response.statusText;
         } else {
             response.json().then(work => {
-                console.log(work);
                 works.push(work);
                 loadGallery();
                 document.getElementById('modal').style.display = 'none';
@@ -214,4 +224,25 @@ form.addEventListener('submit', (event) => {
     })
 
 })
+
+
+// Fonction pour gérer l'affichage après un login
+function affichageAdmin() {
+    document.getElementById('edit-button').style.display = 'block';
+    document.getElementById('edit-bar').style.display = 'flex';
+    categories.style.display = 'none';
+    addLogoutButton();
+}
+
+
+// fonction pour ajouter le bouton de déconnexion
+function addLogoutButton() {
+    const logButton = document.getElementById('logButton');
+    logButton.href = '#';
+    logButton.textContent = 'logout';
+    logButton.addEventListener('click', () => {
+        window.localStorage.clear();
+        window.location.href = 'index.html';
+    });
+}
 
