@@ -391,10 +391,14 @@ form button.login-btn {
 form .button {
 	display: flex;
 	gap: 15px;
-	text-decoration: underline;
 	cursor: pointer;
 	font-weight: 500;
 	color: rgba(61, 61, 61, 1);
+}
+
+.button[disabled="true"] {
+	opacity: 0.5;
+	cursor: auto;
 }
 
 .error {
@@ -437,19 +441,25 @@ form .button {
 .modal-content {
 	background-color: white;
 	margin: auto auto;
-	padding: 70px;
-	width: 430px;
+	padding: 30px;
+	width: 630px;
 	border-radius: 10px;
 	text-align: center;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3)
 }
 
-/* Bouton de fermeture */
-.close {
-	float: right;
-	font-size: 12px;
-	font-weight: bold;
+#modal .modal-nav {
+	display: flex;
+	justify-content: space-between;
+}
+
+#modal .modal-nav span {
 	cursor: pointer;
+	font-size: 22px;
+}
+
+#modal .modal-nav .back-button {
+	display: none;
 }
 
 .imagemodal {
@@ -498,6 +508,10 @@ div.modal-footer {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+div#edit-modal {
+	margin: 0px 80px;
 }
 
 div#create-modal {

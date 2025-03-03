@@ -87,6 +87,45 @@ function desactiveFilters() {
 // un bouton poubelle sur chacun, qui permet de supprimer le travail correspondant.
 document.getElementById("edit-button").addEventListener("click", function () {
     document.getElementById("modal").style.display = "block";
+    loadEditGallery();
+});
+
+
+
+// Fermer en cliquant sur la croix
+document.querySelector(".close").addEventListener("click", function () {
+    document.getElementById("modal").style.display = "none";
+});
+
+// Fermer en cliquant en dehors du modal
+window.addEventListener("click", function (event) {
+    if (event.target == document.getElementById("modal")) {
+        document.getElementById("modal").style.display = "none";
+    }
+});
+
+if (localStorage.getItem('token')) {
+    affichageAdmin();
+}
+
+// Fonction pour recharger la liste des travaux de manière dynamique
+function loadGallery() {
+    gallery.innerHTML = '';
+    for (let i = 0; i < works.length; i++) {
+        const work = works[i];
+        const figure = document.createElement('figure');
+        const img = document.createElement('img');
+        const figcaption = document.createElement('figcaption');
+        img.src = work.imageUrl;
+        figure.appendChild(img);
+        figcaption.textContent = work.title;
+        figure.appendChild(figcaption);
+        gallery.appendChild(figure);
+    }
+}
+
+// Fonction pour recharger la liste des travaux de la modale de manière dynamique
+function loadEditGallery() {
     const listeGalerie = document.getElementById("liste-galerie");
     listeGalerie.innerHTML = "";
     for (let i = 0; i < works.length; i++) {
@@ -126,54 +165,25 @@ document.getElementById("edit-button").addEventListener("click", function () {
 
         listeGalerie.appendChild(divImage);
     }
-
-});
-
-
-
-// Fermer en cliquant sur la croix
-document.querySelector(".close").addEventListener("click", function () {
-    document.getElementById("modal").style.display = "none";
-});
-
-// Fermer en cliquant en dehors du modal
-window.addEventListener("click", function (event) {
-    if (event.target == document.getElementById("modal")) {
-        document.getElementById("modal").style.display = "none";
-    }
-});
-
-if (localStorage.getItem('token')) {
-    affichageAdmin();
 }
 
-// Fonction pour recharger la liste des travaux de manière dynamique
-function loadGallery() {
-    gallery.innerHTML = '';
-    for (let i = 0; i < works.length; i++) {
-        const work = works[i];
-        const figure = document.createElement('figure');
-        const img = document.createElement('img');
-        const figcaption = document.createElement('figcaption');
-        img.src = work.imageUrl;
-        figure.appendChild(img);
-        figcaption.textContent = work.title;
-        figure.appendChild(figcaption);
-        gallery.appendChild(figure);
-    }
-}
+
+const editModal = document.getElementById("edit-modal");
+const createModal = document.getElementById('create-modal');
+const backButton = document.querySelector('#modal .back-button');
 
 // Au clique sur le bouton "Ajouter une photo" dans la modale, on remplace la modale de suppression
 // Par la modale du formulare de création d'un travail
 document.getElementById('addPhotoButton').addEventListener("click", function () {
-    document.getElementById("edit-modal").style.display = "none";
-    document.getElementById('create-modal').style.display = "block";
+    editModal.style.display = "none";
+    backButton.style.display = "block";
+    createModal.style.display = "block";
 
     // on charge le select avac la liste des categories
     const select = document.querySelector('#create-modal select');
+    select.innerHTML = '';
     for (let i = 0; i < categoriesList.length; i++) {
         const category = categoriesList[i];
-        console.log(category);
         const option = document.createElement("option");
         option.value = category.id;
         option.textContent = category.name;
@@ -182,6 +192,15 @@ document.getElementById('addPhotoButton').addEventListener("click", function () 
 })
 
 
+// Au clique sur la flèche de la modal, on revien en arrière
+backButton.addEventListener('click', () => {
+    createModal.style.display = "none";
+    backButton.style.display = "none";
+    editModal.style.display = "block";
+});
+
+
+const inputField = document.querySelector('.file-field');
 // Qaund on selectionne une image dans le formulaire, l'image doit s'afficher.
 document.getElementById("image").addEventListener("change", function (event) {
     let file = event.target.files[0];
@@ -191,7 +210,6 @@ document.getElementById("image").addEventListener("change", function (event) {
         reader.onload = function (e) {
             let preview = document.getElementById("preview");
             preview.src = e.target.result;
-            let inputField = document.querySelector('.file-field');
             inputField.style.display = "none";
             preview.style.display = "block"; // Affiche l'aperçu
         };
@@ -202,6 +220,7 @@ document.getElementById("image").addEventListener("change", function (event) {
 
 // création d'un nnouveau travail via le backend
 const form = document.querySelector('#create-modal form');
+const submitButton = document.querySelector('#modal form input[type="submit"]');
 form.addEventListener('submit', (event) => {
     event.preventDefault();
 
@@ -218,11 +237,25 @@ form.addEventListener('submit', (event) => {
             response.json().then(work => {
                 works.push(work);
                 loadGallery();
-                document.getElementById('modal').style.display = 'none';
+                loadEditGallery();
+                form.reset();
+                submitButton.disabled = true;
+                inputField.style.display = 'flex';
+                preview.style.display = "none";
             });
         }
     })
+})
 
+// dégrisage du bouton valider du formulaire si tout les champs sont saisie
+form.addEventListener('input', () => {
+    let formData = new FormData(form);
+    const imageField = document.getElementById('image');
+    const titleField = document.querySelector('#modal form input[name="title"]');
+    const categoryField = document.querySelector('#modal form select');
+    if (imageField.value !== '' && titleField.value !== '' && categoryField.value !== '') {
+        submitButton.disabled = false;
+    }
 })
 
 
